@@ -1,0 +1,600 @@
+
+package Gui;
+import javax.swing.JOptionPane;
+public class CustomerPanel1 extends javax.swing.JPanel {
+
+    
+
+private void loadCustomers() {
+    javax.swing.table.DefaultTableModel model =
+            (javax.swing.table.DefaultTableModel) tblCustomer.getModel();
+
+    model.setRowCount(0);
+
+   String sql = "SELECT CustomerID, FirstName, LastName, "
+        + "ContactNumber, Address FROM customer "
+        + "WHERE IsArchived = 0";
+
+    try (java.sql.Connection con =
+            database.DBConnection.getConnection()) {
+
+        if (con == null) {
+            return;
+        }
+
+        try (java.sql.PreparedStatement pst =
+                con.prepareStatement(sql);
+             java.sql.ResultSet rs = pst.executeQuery()) {
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("CustomerID"),
+                    rs.getString("FirstName"),
+                    rs.getString("LastName"),
+                    rs.getString("ContactNumber"),
+                    rs.getString("Address")
+                });
+            }
+        }
+
+    } catch (java.sql.SQLException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this, "Error loading customers: " + e.getMessage());
+    }
+}
+
+private void setupSearchPlaceholder() {
+    String placeholder = "Search customer...";
+
+    TXTSEARCH.setText(placeholder);
+    TXTSEARCH.setForeground(java.awt.Color.GRAY);
+
+    TXTSEARCH.addFocusListener(new java.awt.event.FocusAdapter() {
+        @Override
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            if (TXTSEARCH.getText().equals(placeholder)) {
+                TXTSEARCH.setText("");
+                TXTSEARCH.setForeground(java.awt.Color.BLACK);
+            }
+        }
+
+        @Override
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            if (TXTSEARCH.getText().trim().isEmpty()) {
+                TXTSEARCH.setText(placeholder);
+                TXTSEARCH.setForeground(java.awt.Color.GRAY);
+            }
+        }
+    });
+}
+
+
+    public CustomerPanel1() {
+        initComponents();
+        setupSearchPlaceholder();
+        loadCustomers();
+    }
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        TXTFIRSTNAME = new javax.swing.JTextField();
+        TXTLASTNAME = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        TXTCONTACTNUMBER = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        TXTADDRESS = new javax.swing.JTextField();
+        btnSave = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnRemove = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblCustomer = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        TXTSEARCH = new javax.swing.JTextField();
+        BTNSEARCH = new javax.swing.JButton();
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 26)); // NOI18N
+        jLabel1.setText("Customer Management");
+
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setText("Manage your motorcycle shop customers");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel1)
+                .addGap(5, 5, 5)
+                .addComponent(jLabel2)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel9.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel9.setText("Customer Information");
+
+        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        jLabel3.setText("First Name");
+
+        TXTFIRSTNAME.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        TXTLASTNAME.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        jLabel5.setText("Last Name");
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        jLabel4.setText("Contact Number");
+
+        TXTCONTACTNUMBER.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
+        jLabel6.setText("Address");
+
+        TXTADDRESS.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnSave.setBackground(new java.awt.Color(37, 99, 235));
+        btnSave.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnSave.setForeground(new java.awt.Color(255, 255, 255));
+        btnSave.setText(" Save Customer");
+        btnSave.addActionListener(this::btnSaveActionPerformed);
+
+        btnUpdate.setBackground(new java.awt.Color(0, 153, 0));
+        btnUpdate.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(this::btnUpdateActionPerformed);
+
+        btnRemove.setBackground(new java.awt.Color(204, 51, 0));
+        btnRemove.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnRemove.setForeground(new java.awt.Color(255, 255, 255));
+        btnRemove.setText("Remove");
+        btnRemove.addActionListener(this::btnRemoveActionPerformed);
+
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseClicked(evt);
+            }
+        });
+
+        tblCustomer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblCustomer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Customer ID", "First Name", "Last Name", "Contact Number", "Address"
+            }
+        ));
+        tblCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCustomerMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblCustomer);
+
+        jLabel7.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel7.setText("Recent Customer Records");
+
+        TXTSEARCH.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        BTNSEARCH.setBackground(new java.awt.Color(37, 99, 235));
+        BTNSEARCH.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        BTNSEARCH.setForeground(new java.awt.Color(255, 255, 255));
+        BTNSEARCH.setText("Search");
+        BTNSEARCH.addActionListener(this::BTNSEARCHActionPerformed);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(TXTFIRSTNAME, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(51, 51, 51)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(TXTLASTNAME, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(51, 51, 51)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(TXTCONTACTNUMBER, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(15, 15, 15)
+                                        .addComponent(btnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(TXTADDRESS, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 87, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 302, Short.MAX_VALUE)
+                                .addComponent(TXTSEARCH, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15)
+                                .addComponent(BTNSEARCH, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(124, 124, 124)))))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TXTFIRSTNAME, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TXTLASTNAME, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TXTCONTACTNUMBER, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TXTADDRESS, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(57, 57, 57)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(TXTSEARCH, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BTNSEARCH, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(196, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+    String firstName = TXTFIRSTNAME.getText().trim();
+    String lastName = TXTLASTNAME.getText().trim();
+    String contact = TXTCONTACTNUMBER.getText().trim();
+    String address = TXTADDRESS.getText().trim();
+
+    if (firstName.isEmpty() || lastName.isEmpty()
+            || contact.isEmpty() || address.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this, "Please fill in all fields.");
+        return;
+    }
+
+    String sql = "INSERT INTO customer "
+            + "(FirstName, LastName, ContactNumber, Address) "
+            + "VALUES (?, ?, ?, ?)";
+
+    try (java.sql.Connection con =
+            database.DBConnection.getConnection()) {
+
+        if (con == null) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "Database connection failed.");
+            return;
+        }
+
+        try (java.sql.PreparedStatement pst =
+                con.prepareStatement(sql)) {
+
+            pst.setString(1, firstName);
+            pst.setString(2, lastName);
+            pst.setString(3, contact);
+            pst.setString(4, address);
+
+            pst.executeUpdate();
+
+            loadCustomers();
+
+            TXTFIRSTNAME.setText("");
+            TXTLASTNAME.setText("");
+            TXTCONTACTNUMBER.setText("");
+            TXTADDRESS.setText("");
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "Customer saved successfully!");
+        }
+
+    } catch (java.sql.SQLException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this, "Error saving customer: " + e.getMessage());
+    }
+
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void BTNSEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSEARCHActionPerformed
+        // TODO add your handling code here:        
+   
+String search = TXTSEARCH.getText().trim();
+
+if (search.isEmpty()) {
+    loadCustomers();
+    return;
+}
+
+String sql = "SELECT CustomerID, FirstName, LastName, ContactNumber, Address "
+        + "FROM customer "
+        + "WHERE IsArchived = 0 AND ("
+        + "CAST(CustomerID AS CHAR) LIKE ? "
+        + "OR FirstName LIKE ? "
+        + "OR LastName LIKE ? "
+        + "OR ContactNumber LIKE ? "
+        + "OR Address LIKE ?)";
+
+try (
+    java.sql.Connection con = database.DBConnection.getConnection();
+    java.sql.PreparedStatement pst = con.prepareStatement(sql)
+) {
+    String keyword = "%" + search + "%";
+
+    for (int i = 1; i <= 5; i++) {
+        pst.setString(i, keyword);
+    }
+
+    try (java.sql.ResultSet rs = pst.executeQuery()) {
+        javax.swing.table.DefaultTableModel model =
+                (javax.swing.table.DefaultTableModel) tblCustomer.getModel();
+
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("CustomerID"),
+                rs.getString("FirstName"),
+                rs.getString("LastName"),
+                rs.getString("ContactNumber"),
+                rs.getString("Address")
+            });
+        }
+
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No customer found.");
+        }
+    }
+
+} catch (java.sql.SQLException e) {
+    JOptionPane.showMessageDialog(this,
+            "Error searching customers: " + e.getMessage());
+}
+
+    }//GEN-LAST:event_BTNSEARCHActionPerformed
+
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jScrollPane1MouseClicked
+
+    private void tblCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustomerMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblCustomerMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+int row = tblCustomer.getSelectedRow();
+int col = tblCustomer.getSelectedColumn();
+
+if (row == -1 || col == -1) {
+    javax.swing.JOptionPane.showMessageDialog(
+        this, "Please select the cell you want to update.");
+    return;
+}
+
+if (col == 0) {
+    javax.swing.JOptionPane.showMessageDialog(
+        this, "Customer ID cannot be changed.");
+    return;
+}
+
+String[] columnNames = {
+    "Customer ID", "First Name", "Last Name",
+    "Contact Number", "Address"
+};
+
+String oldValue = tblCustomer.getValueAt(row, col).toString();
+
+String newValue = javax.swing.JOptionPane.showInputDialog(
+    this,
+    "Enter the new " + columnNames[col] + ":",
+    oldValue
+);
+
+if (newValue == null) {
+    return;
+}
+
+newValue = newValue.trim();
+
+if (newValue.isEmpty()) {
+    javax.swing.JOptionPane.showMessageDialog(
+        this, "Value cannot be empty.");
+    return;
+}
+
+int customerID = Integer.parseInt(
+    tblCustomer.getValueAt(row, 0).toString());
+
+String column;
+
+switch (col) {
+    case 1: column = "FirstName"; break;
+    case 2: column = "LastName"; break;
+    case 3: column = "ContactNumber"; break;
+    case 4: column = "Address"; break;
+    default: return;
+}
+
+String sql = "UPDATE customer SET " + column
+        + "=? WHERE CustomerID=?";
+
+try (java.sql.Connection con =
+         database.DBConnection.getConnection();
+     java.sql.PreparedStatement pst =
+         con.prepareStatement(sql)) {
+
+    pst.setString(1, newValue);
+    pst.setInt(2, customerID);
+
+    int updated = pst.executeUpdate();
+
+    if (updated > 0) {
+        loadCustomers();
+        javax.swing.JOptionPane.showMessageDialog(
+            this, columnNames[col] + " updated successfully!");
+    }
+
+} catch (java.sql.SQLException e) {
+    javax.swing.JOptionPane.showMessageDialog(
+        this, "Update failed: " + e.getMessage());
+}
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = tblCustomer.getSelectedRow();
+
+if (selectedRow == -1) {
+    javax.swing.JOptionPane.showMessageDialog(
+        this,
+        "Please select a customer to archive."
+    );
+    return;
+}
+
+int customerID = Integer.parseInt(
+    tblCustomer.getValueAt(selectedRow, 0).toString()
+);
+
+int confirm = javax.swing.JOptionPane.showConfirmDialog(
+    this,
+    "Are you sure you want to archive this customer?",
+    "Confirm Archive",
+    javax.swing.JOptionPane.YES_NO_OPTION
+);
+
+if (confirm != javax.swing.JOptionPane.YES_OPTION) {
+    return;
+}
+
+String sql =
+    "UPDATE customer SET IsArchived = 1 WHERE CustomerID = ?";
+
+try (
+    java.sql.Connection con =
+        database.DBConnection.getConnection();
+    java.sql.PreparedStatement pst = con.prepareStatement(sql)
+) {
+    pst.setInt(1, customerID);
+
+    int updated = pst.executeUpdate();
+
+    if (updated > 0) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Customer archived successfully!"
+        );
+        
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Customer not found."
+        );
+    }
+
+} catch (java.sql.SQLException e) {
+    javax.swing.JOptionPane.showMessageDialog(
+        this,
+        "Error archiving customer: " + e.getMessage()
+    );
+}
+    }//GEN-LAST:event_btnRemoveActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BTNSEARCH;
+    private javax.swing.JTextField TXTADDRESS;
+    private javax.swing.JTextField TXTCONTACTNUMBER;
+    private javax.swing.JTextField TXTFIRSTNAME;
+    private javax.swing.JTextField TXTLASTNAME;
+    private javax.swing.JTextField TXTSEARCH;
+    private javax.swing.JButton btnRemove;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblCustomer;
+    // End of variables declaration//GEN-END:variables
+}
