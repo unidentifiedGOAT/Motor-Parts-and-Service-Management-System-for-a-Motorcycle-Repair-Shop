@@ -1,0 +1,55 @@
+===================LOGIN=============================
+String username = txtUsername.getText().trim();
+String password = new String(txtPassword.getPassword());
+
+if (username.isEmpty() || password.isEmpty()) {
+    javax.swing.JOptionPane.showMessageDialog(
+        this, "Please enter your username and password.");
+    return;
+}
+
+String sql = "SELECT * FROM users WHERE Username = ? AND Password = ?";
+
+try (
+    java.sql.Connection conn = database.DBConnection.getConnection();
+    java.sql.PreparedStatement pst = conn.prepareStatement(sql)
+) {
+    if (conn == null) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this, "Database connection failed.");
+        return;
+    }
+
+    pst.setString(1, username);
+    pst.setString(2, password);
+
+    try (java.sql.ResultSet rs = pst.executeQuery()) {
+        if (rs.next()) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this, "Login successful!");
+
+          
+javax.swing.JFrame mainWindow = new javax.swing.JFrame("Motor Parts and Service Management System");
+
+mainWindow.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+mainWindow.setContentPane(new MainMenu());
+mainWindow.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+mainWindow.setVisible(true);
+
+
+this.dispose();
+
+
+            this.dispose();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(
+                this, "Invalid username or password.");
+        }
+    }
+
+} catch (Exception e) {
+    javax.swing.JOptionPane.showMessageDialog(
+        this, "Login error: " + e.getMessage());
+}
+
+    }                                        
